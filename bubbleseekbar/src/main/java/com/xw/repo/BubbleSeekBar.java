@@ -679,178 +679,180 @@ public class BubbleSeekBar extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                performClick();
-                getParent().requestDisallowInterceptTouchEvent(true);
+        return  false;
+//        switch (event.getActionMasked()) {
+//            case MotionEvent.ACTION_DOWN:
+//                performClick();
+//                getParent().requestDisallowInterceptTouchEvent(true);
+//
+//                isThumbOnDragging = isThumbTouched(event);
+//                if (isThumbOnDragging) {
+//                    if (isSeekBySection && !triggerSeekBySection) {
+//                        triggerSeekBySection = true;
+//                    }
+//                    if (isAlwaysShowBubble && !triggerBubbleShowing) {
+//                        triggerBubbleShowing = true;
+//                    }
+//                    if (!isHideBubble) {
+//                        showBubble();
+//                    }
+//
+//                    invalidate();
+//                } else if (isTouchToSeek && isTrackTouched(event)) {
+//                    isThumbOnDragging = true;
+//                    if (isSeekBySection && !triggerSeekBySection) {
+//                        triggerSeekBySection = true;
+//                    }
+//                    if (isAlwaysShowBubble) {
+//                        hideBubble();
+//                        triggerBubbleShowing = true;
+//                    }
+//
+//                    if (isSeekStepSection) {
+//                        mThumbCenterX = mPreThumbCenterX = calThumbCxWhenSeekStepSection(event.getX());
+//                    } else {
+//                        mThumbCenterX = event.getX();
+//                        if (mThumbCenterX < mLeft) {
+//                            mThumbCenterX = mLeft;
+//                        }
+//                        if (mThumbCenterX > mRight) {
+//                            mThumbCenterX = mRight;
+//                        }
+//                    }
+//
+//                    mProgress = calculateProgress();
+//
+//                    if (!isHideBubble) {
+//                        mBubbleCenterRawX = calculateCenterRawXofBubbleView();
+//                        showBubble();
+//                    }
+//
+//                    invalidate();
+//                }
+//
+//                dx = mThumbCenterX - event.getX();
+//
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                if (isThumbOnDragging) {
+//                    boolean flag = true;
+//
+//                    if (isSeekStepSection) {
+//                        float x = calThumbCxWhenSeekStepSection(event.getX());
+//                        if (x != mPreThumbCenterX) {
+//                            mThumbCenterX = mPreThumbCenterX = x;
+//                        } else {
+//                            flag = false;
+//                        }
+//                    } else {
+//                        mThumbCenterX = event.getX() + dx;
+//                        if (mThumbCenterX < mLeft) {
+//                            mThumbCenterX = mLeft;
+//                        }
+//                        if (mThumbCenterX > mRight) {
+//                            mThumbCenterX = mRight;
+//                        }
+//                    }
+//
+//                    if (flag) {
+//                        mProgress = calculateProgress();
+//
+//                        if (!isHideBubble && mBubbleView.getParent() != null) {
+//                            mBubbleCenterRawX = calculateCenterRawXofBubbleView();
+//                            mLayoutParams.x = (int) (mBubbleCenterRawX + 0.5f);
+//                            mWindowManager.updateViewLayout(mBubbleView, mLayoutParams);
+//                            mBubbleView.setProgressText(isShowProgressInFloat ?
+//                                    String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
+//                        } else {
+//                            processProgress();
+//                        }
+//
+//                        invalidate();
+//
+//                        if (mProgressListener != null) {
+//                            mProgressListener.onProgressChanged(this, getProgress(), getProgressFloat(), true);
+//                        }
+//                    }
+//                }
+//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//                getParent().requestDisallowInterceptTouchEvent(false);
+//
+//                if (isAutoAdjustSectionMark) {
+//                    if (isTouchToSeek) {
+//                        postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                isTouchToSeekAnimEnd = false;
+//                                autoAdjustSection();
+//                            }
+//                        }, mAnimDuration);
+//                    } else {
+//                        autoAdjustSection();
+//                    }
+//                } else if (isThumbOnDragging || isTouchToSeek) {
+//                    if (isHideBubble) {
+//                        animate()
+//                                .setDuration(mAnimDuration)
+//                                .setStartDelay(!isThumbOnDragging && isTouchToSeek ? 300 : 0)
+//                                .setListener(new AnimatorListenerAdapter() {
+//                                    @Override
+//                                    public void onAnimationEnd(Animator animation) {
+//                                        isThumbOnDragging = false;
+//                                        invalidate();
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationCancel(Animator animation) {
+//                                        isThumbOnDragging = false;
+//                                        invalidate();
+//                                    }
+//                                }).start();
+//                    } else {
+//                        postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                mBubbleView.animate()
+//                                        .alpha(isAlwaysShowBubble ? 1f : 0f)
+//                                        .setDuration(mAnimDuration)
+//                                        .setListener(new AnimatorListenerAdapter() {
+//                                            @Override
+//                                            public void onAnimationEnd(Animator animation) {
+//                                                if (!isAlwaysShowBubble) {
+//                                                    hideBubble();
+//                                                }
+//
+//                                                isThumbOnDragging = false;
+//                                                invalidate();
+//                                            }
+//
+//                                            @Override
+//                                            public void onAnimationCancel(Animator animation) {
+//                                                if (!isAlwaysShowBubble) {
+//                                                    hideBubble();
+//                                                }
+//
+//                                                isThumbOnDragging = false;
+//                                                invalidate();
+//                                            }
+//                                        }).start();
+//                            }
+//                        }, mAnimDuration);
+//                    }
+//                }
+//
+//                if (mProgressListener != null) {
+//                    mProgressListener.onProgressChanged(this, getProgress(), getProgressFloat(), true);
+//                    mProgressListener.getProgressOnActionUp(this, getProgress(), getProgressFloat());
+//                }
+//
+//                break;
+//        }
+//
+//        return isThumbOnDragging || isTouchToSeek || super.onTouchEvent(event);
 
-                isThumbOnDragging = isThumbTouched(event);
-                if (isThumbOnDragging) {
-                    if (isSeekBySection && !triggerSeekBySection) {
-                        triggerSeekBySection = true;
-                    }
-                    if (isAlwaysShowBubble && !triggerBubbleShowing) {
-                        triggerBubbleShowing = true;
-                    }
-                    if (!isHideBubble) {
-                        showBubble();
-                    }
-
-                    invalidate();
-                } else if (isTouchToSeek && isTrackTouched(event)) {
-                    isThumbOnDragging = true;
-                    if (isSeekBySection && !triggerSeekBySection) {
-                        triggerSeekBySection = true;
-                    }
-                    if (isAlwaysShowBubble) {
-                        hideBubble();
-                        triggerBubbleShowing = true;
-                    }
-
-                    if (isSeekStepSection) {
-                        mThumbCenterX = mPreThumbCenterX = calThumbCxWhenSeekStepSection(event.getX());
-                    } else {
-                        mThumbCenterX = event.getX();
-                        if (mThumbCenterX < mLeft) {
-                            mThumbCenterX = mLeft;
-                        }
-                        if (mThumbCenterX > mRight) {
-                            mThumbCenterX = mRight;
-                        }
-                    }
-
-                    mProgress = calculateProgress();
-
-                    if (!isHideBubble) {
-                        mBubbleCenterRawX = calculateCenterRawXofBubbleView();
-                        showBubble();
-                    }
-
-                    invalidate();
-                }
-
-                dx = mThumbCenterX - event.getX();
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (isThumbOnDragging) {
-                    boolean flag = true;
-
-                    if (isSeekStepSection) {
-                        float x = calThumbCxWhenSeekStepSection(event.getX());
-                        if (x != mPreThumbCenterX) {
-                            mThumbCenterX = mPreThumbCenterX = x;
-                        } else {
-                            flag = false;
-                        }
-                    } else {
-                        mThumbCenterX = event.getX() + dx;
-                        if (mThumbCenterX < mLeft) {
-                            mThumbCenterX = mLeft;
-                        }
-                        if (mThumbCenterX > mRight) {
-                            mThumbCenterX = mRight;
-                        }
-                    }
-
-                    if (flag) {
-                        mProgress = calculateProgress();
-
-                        if (!isHideBubble && mBubbleView.getParent() != null) {
-                            mBubbleCenterRawX = calculateCenterRawXofBubbleView();
-                            mLayoutParams.x = (int) (mBubbleCenterRawX + 0.5f);
-                            mWindowManager.updateViewLayout(mBubbleView, mLayoutParams);
-                            mBubbleView.setProgressText(isShowProgressInFloat ?
-                                    String.valueOf(getProgressFloat()) : String.valueOf(getProgress()));
-                        } else {
-                            processProgress();
-                        }
-
-                        invalidate();
-
-                        if (mProgressListener != null) {
-                            mProgressListener.onProgressChanged(this, getProgress(), getProgressFloat(), true);
-                        }
-                    }
-                }
-
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                getParent().requestDisallowInterceptTouchEvent(false);
-
-                if (isAutoAdjustSectionMark) {
-                    if (isTouchToSeek) {
-                        postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                isTouchToSeekAnimEnd = false;
-                                autoAdjustSection();
-                            }
-                        }, mAnimDuration);
-                    } else {
-                        autoAdjustSection();
-                    }
-                } else if (isThumbOnDragging || isTouchToSeek) {
-                    if (isHideBubble) {
-                        animate()
-                                .setDuration(mAnimDuration)
-                                .setStartDelay(!isThumbOnDragging && isTouchToSeek ? 300 : 0)
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        isThumbOnDragging = false;
-                                        invalidate();
-                                    }
-
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
-                                        isThumbOnDragging = false;
-                                        invalidate();
-                                    }
-                                }).start();
-                    } else {
-                        postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mBubbleView.animate()
-                                        .alpha(isAlwaysShowBubble ? 1f : 0f)
-                                        .setDuration(mAnimDuration)
-                                        .setListener(new AnimatorListenerAdapter() {
-                                            @Override
-                                            public void onAnimationEnd(Animator animation) {
-                                                if (!isAlwaysShowBubble) {
-                                                    hideBubble();
-                                                }
-
-                                                isThumbOnDragging = false;
-                                                invalidate();
-                                            }
-
-                                            @Override
-                                            public void onAnimationCancel(Animator animation) {
-                                                if (!isAlwaysShowBubble) {
-                                                    hideBubble();
-                                                }
-
-                                                isThumbOnDragging = false;
-                                                invalidate();
-                                            }
-                                        }).start();
-                            }
-                        }, mAnimDuration);
-                    }
-                }
-
-                if (mProgressListener != null) {
-                    mProgressListener.onProgressChanged(this, getProgress(), getProgressFloat(), true);
-                    mProgressListener.getProgressOnActionUp(this, getProgress(), getProgressFloat());
-                }
-
-                break;
-        }
-
-        return isThumbOnDragging || isTouchToSeek || super.onTouchEvent(event);
     }
 
     /**
